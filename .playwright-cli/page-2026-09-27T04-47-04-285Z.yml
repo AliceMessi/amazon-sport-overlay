@@ -1,0 +1,87 @@
+- generic [ref=f29e3]:
+  - generic [ref=f29e4]:
+    - generic [ref=f29e5]:
+      - generic [ref=f29e6]: SPORT COMPANION
+      - generic [ref=f29e7]: Tutto il tuo sport, in un colpo d’occhio
+    - generic [ref=f29e8]: DEMO FEED
+  - generic [ref=f29e12]:
+    - generic:
+      - generic [ref=f29e13]:
+        - button "Filtra Tutti" [ref=f29e14] [cursor=pointer]:
+          - generic [ref=f29e15]: Tutti
+        - button "Filtra Calcio" [ref=f29e16] [cursor=pointer]:
+          - generic [ref=f29e17]: Calcio
+        - button "Filtra Basket" [ref=f29e18] [cursor=pointer]:
+          - generic [ref=f29e19]: Basket
+        - button "Filtra Formula 1" [ref=f29e20] [cursor=pointer]:
+          - generic [ref=f29e21]: Formula 1
+      - generic [ref=f29e22]:
+        - generic [ref=f29e23]: Diretta e prossimi eventi
+        - generic [ref=f29e24]: 5 EVENTI
+      - generic [ref=f29e25]:
+        - button "Apri Inter contro Milan" [ref=f29e26] [cursor=pointer]:
+          - generic [ref=f29e27]:
+            - generic [ref=f29e28]: Serie A
+            - generic [ref=f29e29]: LIVE
+          - generic [ref=f29e30]:
+            - generic [ref=f29e31]: Inter
+            - generic [ref=f29e32]: 1 — 1
+          - generic [ref=f29e33]:
+            - generic [ref=f29e34]: Milan
+            - generic [ref=f29e35]: 67°
+        - button "Apri Olimpia Milano contro Virtus Bologna" [ref=f29e36] [cursor=pointer]:
+          - generic [ref=f29e37]:
+            - generic [ref=f29e38]: LBA
+            - generic [ref=f29e39]: LIVE
+          - generic [ref=f29e40]:
+            - generic [ref=f29e41]: Olimpia Milano
+            - generic [ref=f29e42]: 74 — 69
+          - generic [ref=f29e43]:
+            - generic [ref=f29e44]: Virtus Bologna
+            - generic [ref=f29e45]: Q3 04:12
+        - button "Apri Verstappen contro Leclerc" [ref=f29e46] [cursor=pointer]:
+          - generic [ref=f29e47]:
+            - generic [ref=f29e48]: Formula 1
+            - generic [ref=f29e49]: LIVE
+          - generic [ref=f29e50]:
+            - generic [ref=f29e51]: Verstappen
+            - generic [ref=f29e52]: 1 — 2
+          - generic [ref=f29e53]:
+            - generic [ref=f29e54]: Leclerc
+            - generic [ref=f29e55]: Giro 42/58
+        - button "Apri Lakers contro Warriors" [ref=f29e56] [cursor=pointer]:
+          - generic [ref=f29e57]:
+            - generic [ref=f29e58]: NBA
+            - generic [ref=f29e59]: LIVE
+          - generic [ref=f29e60]:
+            - generic [ref=f29e61]: Lakers
+            - generic [ref=f29e62]: 98 — 95
+          - generic [ref=f29e63]:
+            - generic [ref=f29e64]: Warriors
+            - generic [ref=f29e65]: Q4 02:41
+        - button "Apri Real Madrid contro PSG" [ref=f29e66] [cursor=pointer]:
+          - generic [ref=f29e67]:
+            - generic [ref=f29e68]: UEFA Champions League
+            - generic [ref=f29e69]: INIZIA
+          - generic [ref=f29e70]:
+            - generic [ref=f29e71]: Real Madrid
+            - generic [ref=f29e72]: 22:00
+          - generic [ref=f29e73]:
+            - generic [ref=f29e74]: PSG
+            - generic [ref=f29e75]: Calcio
+    - generic [ref=f29e76]:
+      - generic [ref=f29e77]:
+        - generic [ref=f29e78]: Serie A · Calcio
+        - generic [ref=f29e79]: LIVE
+      - generic [ref=f29e80]: PARTITA SELEZIONATA
+      - generic [ref=f29e81]: Inter vs Milan
+      - generic [ref=f29e82]: 1 — 1
+      - generic [ref=f29e84]: Partita equilibrata nel secondo tempo
+      - generic [ref=f29e85]: 67°
+      - generic [ref=f29e86]: San Siro
+      - generic [ref=f29e87]:
+        - generic [ref=f29e88]: Comandi telecomando
+        - generic [ref=f29e89]: Usa le frecce per spostarti e OK per selezionare.
+      - button "Guarda Inter contro Milan con overlay" [ref=f29e90] [cursor=pointer]:
+        - generic [ref=f29e91]: Watch with overlay
+    - generic [ref=f29e92]: Sport Overlay v0.2 · phone layout

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sport Overlay for Fire TV — Pitch Deck (10 slides)</title>
+<style>
+  :root { --bg:#07111F; --card:#0D1D2F; --accent:#55E6C1; --text:#F7FAFC; --muted:#8EA4B8; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family: Arial, Helvetica, sans-serif; }
+  header { padding:28px 48px; border-bottom:1px solid #203B55; position:sticky; top:0; background:var(--bg); }
+  header h1 { margin:0; font-size:26px; } header p { margin:6px 0 0; color:var(--muted); }
+  nav { padding:12px 48px; color:var(--muted); font-size:14px; }
+  nav a { color:var(--accent); margin-right:12px; text-decoration:none; }
+  main { padding:24px 48px 80px; max-width:1200px; margin:0 auto; }
+  section { background:var(--card); border:1px solid #203B55; border-radius:18px; padding:32px; margin:22px 0; }
+  section h2 { margin:0 0 12px; font-size:26px; } section h2 span { color:var(--accent); font-size:15px; letter-spacing:1px; display:block; margin-bottom:6px;}
+  ul { line-height:1.65; } li { margin:4px 0; }
+  img { width:100%; border-radius:12px; border:1px solid #203B55; margin-top:14px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  code { background:#10243A; padding:2px 6px; border-radius:6px; }
+  pre { background:#10243A; padding:14px; border-radius:12px; overflow:auto; }
+  footer { padding:24px 48px; color:var(--muted); border-top:1px solid #203B55; }
+  @media print { header { position:static; } section { break-inside: avoid; } }
+  @media (max-width:800px){ .grid2{grid-template-columns:1fr;} main{padding:16px;} header{padding:20px;} }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sport Overlay for Fire TV — Pitch Deck</h1>
+  <p>10 slides · English · Problem → Solution · Fire TV track (Sports) · Expo + React Native TV · D-pad native</p>
+</header>
+<nav>
+  <a href="#s1">1 Title</a><a href="#s2">2 Problem</a><a href="#s3">3 Users</a><a href="#s4">4 Solution</a><a href="#s5">5 Filter→List</a><a href="#s6">6 Focus→Detail</a><a href="#s7">7 10-foot UX</a><a href="#s8">8 Arch</a><a href="#s9">9 Track fit</a><a href="#s10">10 Roadmap</a>
+</nav>
+<main>
+<section id="s1"><h2><span>SLIDE 1 / 10</span>Title — All your live sports, at a glance</h2>
+<p><strong>Sport Overlay for Fire TV.</strong> A companion live multi-sport overlay for the biggest screen in the house. Football, basketball, Formula 1. Remote-first: arrows + OK, zero typing. Repo: <code>github.com/AliceMessi/amazon-sport-overlay</code></p>
+<img src="slides-higgsfield/01-hero-living-room.png" alt="Vision — match night on Fire TV">
+<p style="color:var(--muted);font-size:13px">AI-generated vision render (Higgsfield GPT Image 2.5).</p>
+<img src="screenshots/01-home-all.png" alt="Home — All sports"></section>
+<section id="s2"><h2><span>SLIDE 2 / 10</span>The Problem — live sports are fragmented</h2>
+<ul><li>Scores live in phone apps while the TV shows one match at a time.</li><li>Switching apps/channels breaks immersion.</li><li>TV guides are not built for <em>live, multi-sport</em> glanceability.</li><li>Fans miss goals, comebacks, overtakes.</li></ul>
+<img src="slides-higgsfield/02-problem-fragmented.png" alt="Fragmented screens concept"></section>
+<section id="s3"><h2><span>SLIDE 3 / 10</span>Who feels it</h2>
+<ul><li><strong>Casual fans / families:</strong> one calm “what’s on now” screen.</li><li><strong>Multi-sport fans:</strong> Serie A + NBA + F1 in one evening.</li><li><strong>Fire TV owners:</strong> powerful living-room device, underused for live companion UX.</li><li>Insight: 10-foot UI must be couch-readable and drivable with 5 buttons.</li></ul></section>
+<section id="s4"><h2><span>SLIDE 4 / 10</span>The Solution — a calm remote-driven companion</h2>
+<ul><li>One landscape screen: filters top, event list left, detail panel right.</li><li>Live badges, scores, period (67', Q3 04:12, Lap 42/58), venue, headline.</li><li>Demo feed included — runs with zero API keys.</li><li>TV-safe contrast and focus states, offline-capable UI.</li></ul>
+<img src="slides-higgsfield/03-solution-overlay.png" alt="Overlay vision"></section>
+<section id="s4b"><h2><span>SLIDE 4b / 10</span>NEW — Watch with Overlay (video + score bug)</h2>
+<ul><li><strong>Yes — a match plays fullscreen with our info on top.</strong> New <code>MatchOverlayScreen</code>: <strong>YouTube derby highlights autoplay</strong> (WebView embed, no player chrome) + score bug top-left + headline/venue bar bottom. mp4 fallback via <code>expo-video</code>.</li><li>From any detail panel: <strong>Watch with overlay</strong> → video + overlay; <code>Hide info</code> / <code>Back</code> via D-pad OK.</li><li>Change match video by swapping one ID (<code>YOUTUBE_DEMO_ID</code>).</li><li>Tests: <code>matchOverlay.test.tsx</code>. Suite now <strong>6 files, 24 tests, green</strong>.</li></ul>
+<img src="screenshots/06-match-overlay.png" alt="Match overlay demo">
+<img src="screenshots/07-youtube-overlay.png" alt="YouTube overlay demo"></section>
+<section id="s5"><h2><span>SLIDE 5 / 10</span>How it works (1/2): Filter → List</h2>
+<ul><li>Pick <strong>All / Football / Basket / Formula 1</strong> → list filters instantly.</li><li>First visible match auto-selects. Counter shows scope (“N EVENTS”).</li></ul>
+<div class="grid2"><img src="screenshots/02-football-filter.png" alt="Football filter"><img src="screenshots/03-basketball-filter.png" alt="Basketball filter"></div></section>
+<section id="s6"><h2><span>SLIDE 6 / 10</span>How it works (2/2): Focus → Detail</h2>
+<ul><li><strong>D-pad focus = selection.</strong> <code>onFocus</code> updates the panel, OK confirms.</li><li>Detail panel: competition, matchup, big score, period, venue, remote hint.</li><li>Every control <code>focusable</code> with visible selected state.</li></ul>
+<div class="grid2"><img src="screenshots/04-formula1-detail.png" alt="F1 detail"><img src="screenshots/05-dpad-navigation.png" alt="D-pad navigation"></div></section>
+<section id="s7"><h2><span>SLIDE 7 / 10</span>10-foot &amp; D-pad UX</h2>
+<ul><li>Landscape-first, 48px margins, large type, <code>#07111F / #F7FAFC</code> contrast.</li><li>Focus ring always visible; wrap-around navigation via <code>selectionMoved</code> reducer.</li><li>No keyboard/touch assumptions; Leanback launcher + 320×180 banner.</li><li>Tests: filter, focus-update, all-buttons-focusable (<code>liveSportsScreen.test.tsx</code>).</li></ul></section>
+<section id="s8"><h2><span>SLIDE 8 / 10</span>Architecture</h2>
+<pre>App.tsx → LiveSportsScreen → sportsDashboard reducer + filterMatches
+src/domain/matches.ts    — Sport, SportMatch types
+src/data/demoMatches.ts  — 5 local events (Serie A, LBA, NBA, F1, UCL)
+src/state/               — createDashboardState / dashboardReducer
+plugins/withFireTv.js    — Leanback + banner config</pre>
+<ul><li>Expo 57 · React 19 · react-native-tvos · TypeScript strict.</li><li><code>npm run verify</code> = typecheck + eslint + jest → <strong>19/19 green</strong>.</li></ul></section>
+<section id="s9"><h2><span>SLIDE 9 / 10</span>Why this fits the track</h2>
+<ul><li>Fire TV priority category: <strong>sports</strong>.</li><li>Demo-ready on Fire OS / Vega OS; web export in <code>dist/</code> for quick review.</li><li>Friction-free judging: <code>npm install &amp;&amp; npm test</code>, no secrets.</li><li>Open Source mini-challenge eligible: MIT + public repo.</li></ul></section>
+<section id="s10"><h2><span>SLIDE 10 / 10</span>Roadmap &amp; Ask</h2>
+<ul><li><strong>Now:</strong> demo feed, 3 sports, D-pad nav. <strong>Next:</strong> live WebSocket scores, Alexa+ “who’s winning?”, favorites + reminders, logos.</li><li><strong>Ask:</strong> feedback on Fire TV RN tooling (prebuild, focus, Leanback).</li><li>Try: <code>npm install &amp;&amp; npm run verify &amp;&amp; npx expo start</code> · Video (&lt;3 min, EN): to record on Fire TV/simulator.</li></ul></section>
+</main>
+<footer>Screenshots in <code>docs/screenshots/</code> are faithful UI renders of <code>LiveSportsScreen</code> (same colors/layout/data) for the deck + Devpost gallery until device captures land. · Deadline Oct 23, 2026.</footer>
+</body>
+</html>

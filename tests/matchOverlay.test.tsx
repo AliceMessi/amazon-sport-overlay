@@ -1,0 +1,98 @@
+import React from 'react';
+import renderer, { act, type ReactTestRenderer } from 'react-test-renderer';
+import type { SportMatch } from '../src/domain/matches';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { default: MatchOverlayScreen } = require('../src/screens/MatchOverlayScreen');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { youtubeEmbedUrl } = require('../src/screens/videoSource');
+
+const match: SportMatch = {
+  id: 'serie-a-inter-milan',
+  sport: 'football',
+  competition: 'Serie A',
+  status: 'live',
+  startsAt: '2026-09-25T18:00:00.000Z',
+  homeTeam: { name: 'Inter', score: 1 },
+  awayTeam: { name: 'Milan', score: 1 },
+  period: '67°',
+  venue: 'San Siro',
+  headline: 'Derby della Madonnina',
+};
+
+describe('MatchOverlayScreen', () => {
+  let screen: ReactTestRenderer | undefined;
+
+  afterEach(() => {
+    if (screen) {
+      act(() => screen?.unmount());
+      screen = undefined;
+    }
+  });
+
+  test('plays the YouTube derby by default with score bug overlay', () => {
+    act(() => {
+      screen = renderer.create(
+        <MatchOverlayScreen match={match} onBack={() => undefined} />,
+      );
+    });
+    const webview = screen.root.findByProps({ testID: 'youtube-webview' });
+    expect(webview.props.source.uri).toContain('youtube.com/embed/');
+    expect(
+      screen.root.findByProps({ testID: 'overlay-score-bug' }),
+    ).toBeTruthy();
+    expect(
+      screen.root.findByProps({ testID: 'overlay-headline' }).props.children,
+    ).toBe('Derby della Madonnina');
+  });
+
+  test('builds an autoplay embed URL without player chrome', () => {
+    const url = youtubeEmbedUrl('0rOAweY4dFQ');
+    expect(url).toBe(
+      'https://www.youtube.com/embed/0rOAweY4dFQ?autoplay=1&controls=0&rel=0&modestbranding=1&playsinline=1',
+    );
+  });
+
+  test('supports an mp4 source as fallback', () => {
+    act(() => {
+      screen = renderer.create(
+        <MatchOverlayScreen
+          match={match}
+          source={{ type: 'mp4', uri: 'https://example.com/m.mp4' }}
+          onBack={() => undefined}
+        />,
+      );
+    });
+    expect(screen.root.findByProps({ testID: 'mock-video-view' })).toBeTruthy();
+  });
+
+  test('toggle hides and shows the overlay info', () => {
+    act(() => {
+      screen = renderer.create(
+        <MatchOverlayScreen match={match} onBack={() => undefined} />,
+      );
+    });
+    const toggle = screen.root.findByProps({ testID: 'overlay-toggle' });
+
+    act(() => toggle.props.onPress());
+    expect(() =>
+      screen.root.findByProps({ testID: 'overlay-score-bug' }),
+    ).toThrow();
+
+    act(() => toggle.props.onPress());
+    expect(
+      screen.root.findByProps({ testID: 'overlay-score-bug' }),
+    ).toBeTruthy();
+  });
+
+  test('back button calls onBack', () => {
+    const onBack = jest.fn();
+    act(() => {
+      screen = renderer.create(
+        <MatchOverlayScreen match={match} onBack={onBack} />,
+      );
+    });
+    act(() => screen.root.findByProps({ testID: 'overlay-back' }).props.onPress());
+    expect(onBack).toHaveBeenCalledTimes(1);
+  });
+});

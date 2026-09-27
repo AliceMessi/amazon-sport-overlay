@@ -1,0 +1,23 @@
+- generic [ref=f6e93]:
+  - iframe [ref=f6e94]:
+    - generic [ref=f7e1]:
+      - generic "Video player di YouTube" [ref=f7e3]:
+        - alert [ref=f7e4]:
+          - generic [ref=f7e5]: Video non disponibile
+          - link "Visita YouTube per cercare altri video" [ref=f7e9] [cursor=pointer]:
+            - /url: https://www.youtube.com
+      - dialog "Video non disponibile" [ref=f7e11]:
+        - generic [ref=f7e14]:
+          - img "Logo di YouTube" [ref=f7e15]
+          - generic [ref=f7e16]: Video non disponibile
+          - generic [ref=f7e17]: L'utente che ha caricato questo video non lo ha reso disponibile nel tuo paese
+  - generic:
+    - generic: Inter 1 — 1 Milan · 67°
+    - generic:
+      - generic: Partita equilibrata nel secondo tempo
+      - generic: Serie A · San Siro
+  - generic [ref=f6e95]:
+    - button "Nascondi overlay" [ref=f6e96] [cursor=pointer]:
+      - generic [ref=f6e97]: Hide info
+    - button "Torna alla lista" [ref=f6e98] [cursor=pointer]:
+      - generic [ref=f6e99]: Back

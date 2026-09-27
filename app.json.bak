@@ -7,8 +7,7 @@
     "userInterfaceStyle": "dark",
     "icon": "./assets/icon-1024.png",
     "platforms": [
-      "android",
-      "web"
+      "android"
     ],
     "android": {
       "package": "tech.hokentech.sportoverlay",
@@ -35,8 +34,7 @@
           "isTV": true
         }
       ],
-      "./plugins/withFireTv.js",
-      "expo-video"
+      "./plugins/withFireTv.js"
     ],
     "extra": {
       "eas": {

@@ -84,6 +84,19 @@ describe('LiveSportsScreen', () => {
     ).toBe('Barcellona vs Baskonia');
   });
 
+  test('offers a watch-with-overlay action when onWatch is provided', () => {
+    const onWatch = jest.fn();
+    act(() => {
+      screen = renderer.create(
+        <LiveSportsScreen matches={matches} onWatch={onWatch} />,
+      );
+    });
+
+    act(() => screen.root.findByProps({ testID: 'watch-overlay-button' }).props.onPress());
+
+    expect(onWatch).toHaveBeenCalledWith(matches[0]);
+  });
+
   test('makes every interactive control focusable with a remote', () => {
     const renderedScreen = renderScreen();
     const controls = renderedScreen.root.findAll(
@@ -94,5 +107,20 @@ describe('LiveSportsScreen', () => {
 
     expect(controls.length).toBeGreaterThan(0);
     expect(controls.every((control) => control.props.focusable === true)).toBe(true);
+  });
+
+  test('shows the column phone layout with version footer on touch devices', () => {
+    act(() => {
+      screen = renderer.create(
+        <LiveSportsScreen matches={matches} onWatch={() => undefined} />,
+      );
+    });
+    expect(screen.root.findByProps({ testID: 'watch-overlay-button' })).toBeTruthy();
+    const footer = screen.root.findAll(
+      (node) =>
+        typeof node.props.children === 'string' &&
+        node.props.children.includes('Sport Overlay v0.3'),
+    );
+    expect(footer.length).toBeGreaterThan(0);
   });
 });

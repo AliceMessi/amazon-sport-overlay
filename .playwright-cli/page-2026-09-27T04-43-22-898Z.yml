@@ -1,0 +1,17 @@
+- generic [active] [ref=f9e1]:
+  - generic "Video player di YouTube" [ref=f9e3]:
+    - alert [ref=f9e4]:
+      - generic [ref=f9e5]: Errore di configurazione del video player
+      - link "Visita YouTube per cercare altri video" [ref=f9e9] [cursor=pointer]:
+        - /url: https://www.youtube.com
+  - dialog "Errore di configurazione del video player" [ref=f9e11]:
+    - generic [ref=f9e14]:
+      - img "Logo di YouTube" [ref=f9e15]
+      - generic [ref=f9e16]: Errore di configurazione del video player
+      - generic [ref=f9e17]: Errore 153
+      - generic [ref=f9e18]:
+        - link "Guarda il video su YouTube" [ref=f9e20] [cursor=pointer]:
+          - /url: https://www.youtube.com/watch?v=7YyOTvPR950&source_ve_path=MTc4NDI0
+        - link "Scopri di più" [ref=f9e26] [cursor=pointer]:
+          - /url: https://support.google.com/youtube/answer/171780#zippy=%2Cprovide-a-http-referer-header-to-enable-video-playback
+      - generic [ref=f9e31]: Errore 153

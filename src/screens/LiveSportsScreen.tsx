@@ -1,5 +1,5 @@
 import React, { useMemo, useReducer } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import type { Sport, SportFilter, SportMatch } from '../domain/matches';
 import {
   createDashboardState,
@@ -9,6 +9,7 @@ import {
 
 type LiveSportsScreenProps = {
   matches: readonly SportMatch[];
+  onWatch?: (match: SportMatch) => void;
 };
 
 type SportFilterOption = {
@@ -92,7 +93,28 @@ function MatchCard({
   );
 }
 
-export default function LiveSportsScreen({ matches }: LiveSportsScreenProps) {
+function ContentWrapper({
+  compact,
+  children,
+}: {
+  compact: boolean;
+  children: React.ReactNode;
+}) {
+  if (compact) {
+    return (
+      <ScrollView
+        style={styles.contentWrap}
+        contentContainerStyle={[styles.content, styles.contentCompact]}
+        showsVerticalScrollIndicator={false}
+      >
+        {children}
+      </ScrollView>
+    );
+  }
+  return <View style={styles.content}>{children}</View>;
+}
+
+export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenProps) {
   const [state, dispatch] = useReducer(
     (currentState: ReturnType<typeof createDashboardState>, action: Parameters<typeof dashboardReducer>[1]) =>
       dashboardReducer(currentState, action, matches),
@@ -104,13 +126,18 @@ export default function LiveSportsScreen({ matches }: LiveSportsScreenProps) {
     [matches, state.sport],
   );
   const selectedMatch = matches.find((match) => match.id === state.selectedMatchId);
+  const { width } = useWindowDimensions();
+  // TV gets the 10-foot row layout; every touch device (phone, tablet,
+  // desktop web) gets the single-scroll column so nothing ends up off-screen.
+  const compact = !Platform.isTV;
+  const tight = compact && width < 600;
 
   return (
-    <View style={styles.screen}>
+    <View style={[styles.screen, compact && styles.screenCompact]}>
       <View style={styles.header}>
         <View>
           <Text style={styles.eyebrow}>SPORT COMPANION</Text>
-          <Text style={styles.title}>Tutto il tuo sport, in un colpo d’occhio</Text>
+          <Text style={[styles.title, compact && styles.titleCompact]}>Tutto il tuo sport, in un colpo d’occhio</Text>
         </View>
         <View style={styles.demoBadge}>
           <View style={styles.liveDot} />
@@ -118,8 +145,8 @@ export default function LiveSportsScreen({ matches }: LiveSportsScreenProps) {
         </View>
       </View>
 
-      <View style={styles.content}>
-        <View style={styles.feedColumn}>
+      <ContentWrapper compact={compact}>
+        <View style={[styles.feedColumn, compact && styles.feedColumnCompact]}>
           <ScrollView
             contentContainerStyle={styles.filters}
             horizontal
@@ -151,24 +178,39 @@ export default function LiveSportsScreen({ matches }: LiveSportsScreenProps) {
             <Text style={styles.eventCount}>{visibleMatches.length} EVENTI</Text>
           </View>
 
-          <ScrollView
-            contentContainerStyle={styles.matchList}
-            showsVerticalScrollIndicator={false}
-          >
-            {visibleMatches.map((match) => (
-              <MatchCard
-                key={match.id}
-                match={match}
-                onSelect={() =>
-                  dispatch({ type: 'matchSelected', matchId: match.id })
-                }
-                selected={state.selectedMatchId === match.id}
-              />
-            ))}
-          </ScrollView>
+          {compact ? (
+            <View style={styles.matchList}>
+              {visibleMatches.map((match) => (
+                <MatchCard
+                  key={match.id}
+                  match={match}
+                  onSelect={() =>
+                    dispatch({ type: 'matchSelected', matchId: match.id })
+                  }
+                  selected={state.selectedMatchId === match.id}
+                />
+              ))}
+            </View>
+          ) : (
+            <ScrollView
+              contentContainerStyle={styles.matchList}
+              showsVerticalScrollIndicator={false}
+            >
+              {visibleMatches.map((match) => (
+                <MatchCard
+                  key={match.id}
+                  match={match}
+                  onSelect={() =>
+                    dispatch({ type: 'matchSelected', matchId: match.id })
+                  }
+                  selected={state.selectedMatchId === match.id}
+                />
+              ))}
+            </ScrollView>
+          )}
         </View>
 
-        <View style={styles.detailPanel}>
+        <View style={[styles.detailPanel, compact && styles.detailPanelCompact]}>
           {selectedMatch ? (
             <>
               <View style={styles.detailTopline}>
@@ -185,10 +227,10 @@ export default function LiveSportsScreen({ matches }: LiveSportsScreenProps) {
                 </Text>
               </View>
               <Text style={styles.detailEyebrow}>PARTITA SELEZIONATA</Text>
-              <Text testID="selected-match-title" style={styles.detailTitle}>
+              <Text testID="selected-match-title" style={[styles.detailTitle, compact && styles.detailTitleCompact]}>
                 {`${selectedMatch.homeTeam.name} vs ${selectedMatch.awayTeam.name}`}
               </Text>
-              <Text style={styles.detailScore}>{formatScore(selectedMatch)}</Text>
+              <Text style={[styles.detailScore, compact && styles.detailScoreCompact]}>{formatScore(selectedMatch)}</Text>
               <View style={styles.detailDivider} />
               <Text style={styles.detailHeadline}>
                 {selectedMatch.headline ?? 'Appuntamento in programma'}
@@ -205,12 +247,27 @@ export default function LiveSportsScreen({ matches }: LiveSportsScreenProps) {
                   Usa le frecce per spostarti e OK per selezionare.
                 </Text>
               </View>
+              {onWatch ? (
+                <Pressable
+                  accessibilityLabel={`Guarda ${selectedMatch.homeTeam.name} contro ${selectedMatch.awayTeam.name} con overlay`}
+                  accessibilityRole="button"
+                  focusable
+                  onPress={() => onWatch(selectedMatch)}
+                  style={[styles.watchButton, compact && styles.watchButtonCompact]}
+                  testID="watch-overlay-button"
+                >
+                  <Text style={styles.watchButtonText}>Watch with overlay</Text>
+                </Pressable>
+              ) : null}
             </>
           ) : (
             <Text style={styles.emptyText}>Nessun evento per questo sport.</Text>
           )}
         </View>
-      </View>
+        {compact ? (
+          <Text style={styles.versionFooter}>Sport Overlay v0.3 · phone layout</Text>
+        ) : null}
+      </ContentWrapper>
     </View>
   );
 }
@@ -241,6 +298,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
   },
+  titleCompact: {
+    fontSize: 24,
+  },
   demoBadge: {
     alignItems: 'center',
     backgroundColor: '#10243A',
@@ -268,9 +328,49 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
+  contentWrap: {
+    flex: 1,
+  },
+  contentCompact: {
+    flexDirection: 'column',
+    flexGrow: 1,
+    width: '100%',
+    maxWidth: 1000,
+    alignSelf: 'center',
+  },
+  screenCompact: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
   feedColumn: {
     flex: 1.35,
     marginRight: 28,
+  },
+  feedColumnCompact: {
+    flex: 0,
+    marginRight: 0,
+  },
+  matchList: {
+    gap: 12,
+    paddingBottom: 16,
+  },
+  versionFooter: {
+    color: '#71869B',
+    fontSize: 12,
+    marginTop: 16,
+    textAlign: 'center',
+  },
+  detailPanelCompact: {
+    flex: 0,
+    marginTop: 20,
+    padding: 20,
+  },
+  detailTitleCompact: {
+    fontSize: 24,
+    lineHeight: 30,
+  },
+  detailScoreCompact: {
+    fontSize: 40,
   },
   filters: {
     gap: 10,
@@ -312,10 +412,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
     letterSpacing: 1.1,
-  },
-  matchList: {
-    gap: 12,
-    paddingBottom: 16,
   },
   matchCard: {
     backgroundColor: '#0D1D2F',
@@ -445,6 +541,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     marginTop: 5,
+  },
+  watchButton: {
+    backgroundColor: '#55E6C1',
+    borderColor: '#F7FAFC',
+    borderRadius: 14,
+    borderWidth: 2,
+    marginTop: 14,
+    padding: 16,
+  },
+  watchButtonCompact: {
+    minHeight: 56,
+    justifyContent: 'center',
+  },
+  watchButtonText: {
+    color: '#07111F',
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
   },
   emptyText: {
     color: '#B8C7D9',
