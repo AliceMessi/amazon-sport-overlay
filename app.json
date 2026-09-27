@@ -43,6 +43,9 @@
         "projectId": "71823f49-de0d-4540-aa0d-7397f45ef12b"
       }
     },
+    "experiments": {
+      "baseUrl": "/amazon-sport-overlay"
+    },
     "owner": "alanone89"
   }
 }

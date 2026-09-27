@@ -104,7 +104,7 @@ function ContentWrapper({
     return (
       <ScrollView
         style={styles.contentWrap}
-        contentContainerStyle={[styles.content, styles.contentCompact]}
+        contentContainerStyle={styles.contentCompact}
         showsVerticalScrollIndicator={false}
       >
         {children}
@@ -146,7 +146,7 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
       </View>
 
       <ContentWrapper compact={compact}>
-        <View style={[styles.feedColumn, compact && styles.feedColumnCompact]}>
+        <View style={compact ? styles.feedColumnCompact : styles.feedColumn}>
           <ScrollView
             contentContainerStyle={styles.filters}
             horizontal
@@ -210,7 +210,7 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
           )}
         </View>
 
-        <View style={[styles.detailPanel, compact && styles.detailPanelCompact]}>
+        <View style={compact ? styles.detailPanelCompact : styles.detailPanel}>
           {selectedMatch ? (
             <>
               <View style={styles.detailTopline}>
@@ -332,11 +332,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentCompact: {
+    // Standalone (NOT merged with `content`): atomic-CSS order can let base
+    // `flex:1` win over compact overrides, pinning the container to viewport
+    // height. This object carries every property it needs on its own.
     flexDirection: 'column',
     flexGrow: 1,
+    flexShrink: 0,
     width: '100%',
     maxWidth: 1000,
     alignSelf: 'center',
+    paddingBottom: 28,
   },
   screenCompact: {
     paddingHorizontal: 20,
@@ -347,8 +352,8 @@ const styles = StyleSheet.create({
     marginRight: 28,
   },
   feedColumnCompact: {
-    flex: 0,
-    marginRight: 0,
+    // Standalone: see contentCompact note. Plain block, full width.
+    width: '100%',
   },
   matchList: {
     gap: 12,
@@ -361,7 +366,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   detailPanelCompact: {
-    flex: 0,
+    // Standalone: see contentCompact note. Full visual copy, stacked below.
+    backgroundColor: '#0D1D2F',
+    borderColor: '#203B55',
+    borderRadius: 22,
+    borderWidth: 1,
     marginTop: 20,
     padding: 20,
   },
