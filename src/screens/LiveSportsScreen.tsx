@@ -1,5 +1,5 @@
 import React, { useMemo, useReducer } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { Sport, SportFilter, SportMatch } from '../domain/matches';
 import {
   createDashboardState,
@@ -126,11 +126,9 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
     [matches, state.sport],
   );
   const selectedMatch = matches.find((match) => match.id === state.selectedMatchId);
-  const { width } = useWindowDimensions();
   // TV gets the 10-foot row layout; every touch device (phone, tablet,
   // desktop web) gets the single-scroll column so nothing ends up off-screen.
   const compact = !Platform.isTV;
-  const tight = compact && width < 600;
 
   return (
     <View style={[styles.screen, compact && styles.screenCompact]}>

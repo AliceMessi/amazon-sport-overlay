@@ -20,7 +20,7 @@ describe('App', () => {
 
   test('opens the multi-sport companion with the first live match', () => {
     expect(screen?.root.findByProps({ testID: 'selected-match-title' }).props.children).toBe(
-      'Inter vs Milan',
+      'Polisportiva Lambrate vs ASD Corsico',
     );
   });
 });

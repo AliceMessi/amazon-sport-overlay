@@ -4,7 +4,7 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import { WebView } from 'react-native-webview';
 import type { SportMatch } from '../domain/matches';
 import {
-  YOUTUBE_DEMO_ID,
+  demoSourceForSport,
   youtubeEmbedUrl,
   scoreLine,
   type VideoSource,
@@ -33,7 +33,7 @@ function Mp4Background({ uri }: { uri: string }) {
 
 export default function MatchOverlayScreen({
   match,
-  source = { type: 'youtube', videoId: YOUTUBE_DEMO_ID },
+  source = demoSourceForSport(match.sport),
   onBack,
 }: MatchOverlayScreenProps) {
   const [overlayVisible, setOverlayVisible] = useState(true);

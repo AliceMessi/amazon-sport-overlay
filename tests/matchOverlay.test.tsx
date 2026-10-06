@@ -5,19 +5,19 @@ import type { SportMatch } from '../src/domain/matches';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const { default: MatchOverlayScreen } = require('../src/screens/MatchOverlayScreen');
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { youtubeEmbedUrl } = require('../src/screens/videoSource');
+const { youtubeEmbedUrl, demoSourceForSport } = require('../src/screens/videoSource');
 
 const match: SportMatch = {
-  id: 'serie-a-inter-milan',
+  id: 'promozione-lambrate-corsico',
   sport: 'football',
-  competition: 'Serie A',
+  competition: 'Promozione Lombardia',
   status: 'live',
   startsAt: '2026-09-25T18:00:00.000Z',
-  homeTeam: { name: 'Inter', score: 1 },
-  awayTeam: { name: 'Milan', score: 1 },
+  homeTeam: { name: 'Polisportiva Lambrate', score: 1 },
+  awayTeam: { name: 'ASD Corsico', score: 1 },
   period: '67°',
-  venue: 'San Siro',
-  headline: 'Derby della Madonnina',
+  venue: 'Comunale Lambrate',
+  headline: 'Partita equilibrata nel secondo tempo',
 };
 
 describe('MatchOverlayScreen', () => {
@@ -30,20 +30,29 @@ describe('MatchOverlayScreen', () => {
     }
   });
 
-  test('plays the YouTube derby by default with score bug overlay', () => {
+  test('plays the minor-match mp4 by default with score bug overlay', () => {
     act(() => {
       screen = renderer.create(
         <MatchOverlayScreen match={match} onBack={() => undefined} />,
       );
     });
-    const webview = screen.root.findByProps({ testID: 'youtube-webview' });
-    expect(webview.props.source.uri).toContain('youtube.com/embed/');
+    const video = screen.root.findByProps({ testID: 'mock-video-view' });
+    expect(video).toBeTruthy();
+    expect(() =>
+      screen.root.findByProps({ testID: 'youtube-webview' }),
+    ).toThrow();
     expect(
       screen.root.findByProps({ testID: 'overlay-score-bug' }),
     ).toBeTruthy();
     expect(
       screen.root.findByProps({ testID: 'overlay-headline' }).props.children,
-    ).toBe('Derby della Madonnina');
+    ).toBe('Partita equilibrata nel secondo tempo');
+  });
+
+  test('maps each sport to its own minor-match clip', () => {
+    expect(demoSourceForSport('football').uri).toContain('Latvia-Gibraltar');
+    expect(demoSourceForSport('basketball').uri).toContain('Nabua');
+    expect(demoSourceForSport('formula1').uri).toContain('Cook_Forest');
   });
 
   test('builds an autoplay embed URL without player chrome', () => {

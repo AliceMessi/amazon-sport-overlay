@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { SportMatch } from '../domain/matches';
 import {
-  YOUTUBE_DEMO_ID,
+  DEMO_VIDEO_FALLBACK_URI,
+  demoSourceForSport,
   youtubeEmbedUrl,
   scoreLine,
   type VideoSource,
@@ -14,27 +15,42 @@ type MatchOverlayScreenProps = {
   onBack: () => void;
 };
 
-// Web build: react-native-webview has no web implementation, so embed the
-// YouTube player with a plain fullscreen iframe. Overlay stays identical.
+// Web build: react-native-webview has no web implementation. YouTube embeds
+// via iframe (region-blocked in some countries); MP4/WebM plays in a plain
+// <video> tag with a fallback source, so the demo works everywhere.
 export default function MatchOverlayScreen({
   match,
-  source = { type: 'youtube', videoId: YOUTUBE_DEMO_ID },
+  source = demoSourceForSport(match.sport),
   onBack,
 }: MatchOverlayScreenProps) {
   const [overlayVisible, setOverlayVisible] = useState(true);
-  const videoUri =
-    source.type === 'youtube' ? youtubeEmbedUrl(source.videoId) : source.uri;
 
   return (
     <View style={styles.screen}>
-      {React.createElement('iframe', {
-        src: videoUri,
-        style: { position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 },
-        allow: 'autoplay; encrypted-media; fullscreen; picture-in-picture',
-        allowFullScreen: true,
-        title: `${match.homeTeam.name} vs ${match.awayTeam.name}`,
-        testID: 'youtube-iframe',
-      })}
+      {source.type === 'youtube' ? (
+        React.createElement('iframe', {
+          src: youtubeEmbedUrl(source.videoId),
+          style: { position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 },
+          allow: 'autoplay; encrypted-media; fullscreen; picture-in-picture',
+          allowFullScreen: true,
+          title: `${match.homeTeam.name} vs ${match.awayTeam.name}`,
+          testID: 'youtube-iframe',
+        })
+      ) : (
+        React.createElement(
+          'video',
+          {
+            autoPlay: true,
+            muted: true,
+            loop: true,
+            playsInline: true,
+            style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', border: 0 },
+            testID: 'mp4-video',
+          },
+          React.createElement('source', { src: source.uri, type: 'video/webm' }),
+          React.createElement('source', { src: DEMO_VIDEO_FALLBACK_URI, type: 'video/webm' }),
+        )
+      )}
 
       {overlayVisible ? (
         <View style={styles.overlay} pointerEvents="box-none">

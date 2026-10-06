@@ -6,16 +6,16 @@ import type { SportMatch } from '../src/domain/matches';
 const MatchOverlayScreenWeb = require('../src/screens/MatchOverlayScreen.web').default;
 
 const match: SportMatch = {
-  id: 'serie-a-inter-milan',
+  id: 'promozione-lambrate-corsico',
   sport: 'football',
-  competition: 'Serie A',
+  competition: 'Promozione Lombardia',
   status: 'live',
   startsAt: '2026-09-25T18:00:00.000Z',
-  homeTeam: { name: 'Inter', score: 1 },
-  awayTeam: { name: 'Milan', score: 1 },
+  homeTeam: { name: 'Polisportiva Lambrate', score: 1 },
+  awayTeam: { name: 'ASD Corsico', score: 1 },
   period: '67°',
-  venue: 'San Siro',
-  headline: 'Derby della Madonnina',
+  venue: 'Comunale Lambrate',
+  headline: 'Partita equilibrata nel secondo tempo',
 };
 
 describe('MatchOverlayScreen.web', () => {
@@ -28,14 +28,14 @@ describe('MatchOverlayScreen.web', () => {
     }
   });
 
-  test('embeds YouTube in a fullscreen iframe with score bug on top', () => {
+  test('plays mp4 in a fullscreen video tag with score bug on top', () => {
     act(() => {
       screen = renderer.create(
         <MatchOverlayScreenWeb match={match} onBack={() => undefined} />,
       );
     });
-    const iframe = screen.root.findByProps({ testID: 'youtube-iframe' });
-    expect(iframe.props.src).toContain('youtube.com/embed/0rOAweY4dFQ');
+    const video = screen.root.findByProps({ testID: 'mp4-video' });
+    expect(video).toBeTruthy();
     expect(
       screen.root.findByProps({ testID: 'overlay-score-bug' }),
     ).toBeTruthy();
