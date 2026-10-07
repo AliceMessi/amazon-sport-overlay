@@ -208,7 +208,10 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
           )}
         </View>
 
-        <View style={compact ? styles.detailPanelCompact : styles.detailPanel}>
+        <ScrollView
+          style={compact ? styles.detailPanelCompact : styles.detailPanel}
+          showsVerticalScrollIndicator={false}
+        >
           {selectedMatch ? (
             <>
               <View style={styles.detailTopline}>
@@ -236,15 +239,6 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
               <Text style={styles.detailMeta}>
                 {selectedMatch.period ?? `Inizia alle ${formatTime(selectedMatch.startsAt)}`}
               </Text>
-              {selectedMatch.venue ? (
-                <Text style={styles.detailMeta}>{selectedMatch.venue}</Text>
-              ) : null}
-              <View style={styles.remoteHint}>
-                <Text style={styles.remoteHintTitle}>Comandi telecomando</Text>
-                <Text style={styles.remoteHintText}>
-                  Usa le frecce per spostarti e OK per selezionare.
-                </Text>
-              </View>
               {onWatch ? (
                 <Pressable
                   accessibilityLabel={`Guarda ${selectedMatch.homeTeam.name} contro ${selectedMatch.awayTeam.name} con overlay`}
@@ -257,11 +251,17 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
                   <Text style={styles.watchButtonText}>Watch with overlay</Text>
                 </Pressable>
               ) : null}
+              <View style={styles.remoteHint}>
+                <Text style={styles.remoteHintTitle}>Comandi telecomando</Text>
+                <Text style={styles.remoteHintText}>
+                  Usa le frecce per spostarti e OK per selezionare.
+                </Text>
+              </View>
             </>
           ) : (
             <Text style={styles.emptyText}>Nessun evento per questo sport.</Text>
           )}
-        </View>
+        </ScrollView>
         {compact ? (
           <Text style={styles.versionFooter}>Sport Overlay v0.3 · phone layout</Text>
         ) : null}
