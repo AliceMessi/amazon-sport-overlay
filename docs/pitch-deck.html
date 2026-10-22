@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sport Overlay for Fire TV — Pitch Deck (10 slides)</title>
+<title>Sport Overlay for Fire TV: pitch deck</title>
 <style>
   :root { --bg:#07111F; --card:#0D1D2F; --accent:#55E6C1; --text:#F7FAFC; --muted:#8EA4B8; }
   * { box-sizing: border-box; }
@@ -27,50 +27,49 @@
 </head>
 <body>
 <header>
-  <h1>Sport Overlay for Fire TV — Pitch Deck</h1>
-  <p>10 slides · English · Problem → Solution · Fire TV track (Sports) · Expo + React Native TV · D-pad native</p>
+  <h1>Sport Overlay for Fire TV: pitch deck</h1>
+  <p>10 slides · Fire TV track (sports) · Expo + React Native TV · D-pad native · bundled demo feed</p>
 </header>
 <nav>
-  <a href="#s1">1 Title</a><a href="#s2">2 Problem</a><a href="#s3">3 Users</a><a href="#s4">4 Solution</a><a href="#s5">5 Filter→List</a><a href="#s6">6 Focus→Detail</a><a href="#s7">7 10-foot UX</a><a href="#s8">8 Arch</a><a href="#s9">9 Track fit</a><a href="#s10">10 Roadmap</a>
+  <a href="#s1">1 Title</a><a href="#s2">2 Problem</a><a href="#s3">3 Users</a><a href="#s4">4 Solution</a><a href="#s5">5 Overlay</a><a href="#s6">6 Filter &amp; focus</a><a href="#s7">7 10-foot UX</a><a href="#s8">8 Architecture</a><a href="#s9">9 Track fit</a><a href="#s10">10 Roadmap</a>
 </nav>
 <main>
-<section id="s1"><h2><span>SLIDE 1 / 10</span>Title — All your live sports, at a glance</h2>
-<p><strong>Sport Overlay for Fire TV.</strong> A companion live multi-sport overlay for the biggest screen in the house. Football, basketball, Formula 1. Remote-first: arrows + OK, zero typing. Repo: <code>github.com/AliceMessi/amazon-sport-overlay</code></p>
-<img src="slides-higgsfield/01-hero-living-room.png" alt="Vision — match night on Fire TV">
-<p style="color:var(--muted);font-size:13px">AI-generated vision render (Higgsfield GPT Image 2.5).</p>
-<img src="screenshots/01-home-all.png" alt="Home — All sports"></section>
-<section id="s2"><h2><span>SLIDE 2 / 10</span>The Problem — live sports are fragmented</h2>
-<ul><li>Scores live in phone apps while the TV shows one match at a time.</li><li>Switching apps/channels breaks immersion.</li><li>TV guides are not built for <em>live, multi-sport</em> glanceability.</li><li>Fans miss goals, comebacks, overtakes.</li></ul>
-<img src="slides-higgsfield/02-problem-fragmented.png" alt="Fragmented screens concept"></section>
+<section id="s1"><h2><span>SLIDE 1 / 10</span>Sport Overlay for Fire TV</h2>
+<p>A TV-first companion for live minor-league sport: the score on top of the match, the remote in hand. Football, basketball and motorsport (karting) on one screen, built for Fire OS with React Native TV. Repo: <code>github.com/AliceMessi/amazon-sport-overlay</code></p>
+<img src="slides-higgsfield/01-hero-living-room.png" alt="Vision: match night on Fire TV">
+<p style="color:var(--muted);font-size:13px">AI-generated concept render.</p>
+<img src="screenshots/01-home-all.png" alt="Dashboard on the Android TV emulator"></section>
+<section id="s2"><h2><span>SLIDE 2 / 10</span>The problem: minor-league fans get the worst apps</h2>
+<ul><li>Scores are buried in menus, built for phones and not for the couch.</li><li>Video is region-locked or interrupted by ads.</li><li>TV guides show one match at a time, with no glanceable live view across sports.</li></ul>
+<img src="slides-higgsfield/02-problem-fragmented.png" alt="Fragmented screens concept">
+<p style="color:var(--muted);font-size:13px">AI-generated concept render.</p></section>
 <section id="s3"><h2><span>SLIDE 3 / 10</span>Who feels it</h2>
-<ul><li><strong>Casual fans / families:</strong> one calm “what’s on now” screen.</li><li><strong>Multi-sport fans:</strong> Serie A + NBA + F1 in one evening.</li><li><strong>Fire TV owners:</strong> powerful living-room device, underused for live companion UX.</li><li>Insight: 10-foot UI must be couch-readable and drivable with 5 buttons.</li></ul></section>
-<section id="s4"><h2><span>SLIDE 4 / 10</span>The Solution — a calm remote-driven companion</h2>
-<ul><li>One landscape screen: filters top, event list left, detail panel right.</li><li>Live badges, scores, period (67', Q3 04:12, Lap 42/58), venue, headline.</li><li>Demo feed included — runs with zero API keys.</li><li>TV-safe contrast and focus states, offline-capable UI.</li></ul>
-<img src="slides-higgsfield/03-solution-overlay.png" alt="Overlay vision"></section>
-<section id="s4b"><h2><span>SLIDE 4b / 10</span>NEW — Watch with Overlay (video + score bug)</h2>
-<ul><li><strong>Yes — a match plays fullscreen with our info on top.</strong> New <code>MatchOverlayScreen</code>: <strong>YouTube derby highlights autoplay</strong> (WebView embed, no player chrome) + score bug top-left + headline/venue bar bottom. mp4 fallback via <code>expo-video</code>.</li><li>From any detail panel: <strong>Watch with overlay</strong> → video + overlay; <code>Hide info</code> / <code>Back</code> via D-pad OK.</li><li>Change match video by swapping one ID (<code>YOUTUBE_DEMO_ID</code>).</li><li>Tests: <code>matchOverlay.test.tsx</code>. Suite now <strong>6 files, 24 tests, green</strong>.</li></ul>
-<img src="screenshots/06-match-overlay.png" alt="Match overlay demo">
-<img src="screenshots/07-youtube-overlay.png" alt="YouTube overlay demo"></section>
-<section id="s5"><h2><span>SLIDE 5 / 10</span>How it works (1/2): Filter → List</h2>
-<ul><li>Pick <strong>All / Football / Basket / Formula 1</strong> → list filters instantly.</li><li>First visible match auto-selects. Counter shows scope (“N EVENTS”).</li></ul>
-<div class="grid2"><img src="screenshots/02-football-filter.png" alt="Football filter"><img src="screenshots/03-basketball-filter.png" alt="Basketball filter"></div></section>
-<section id="s6"><h2><span>SLIDE 6 / 10</span>How it works (2/2): Focus → Detail</h2>
-<ul><li><strong>D-pad focus = selection.</strong> <code>onFocus</code> updates the panel, OK confirms.</li><li>Detail panel: competition, matchup, big score, period, venue, remote hint.</li><li>Every control <code>focusable</code> with visible selected state.</li></ul>
-<div class="grid2"><img src="screenshots/04-formula1-detail.png" alt="F1 detail"><img src="screenshots/05-dpad-navigation.png" alt="D-pad navigation"></div></section>
-<section id="s7"><h2><span>SLIDE 7 / 10</span>10-foot &amp; D-pad UX</h2>
-<ul><li>Landscape-first, 48px margins, large type, <code>#07111F / #F7FAFC</code> contrast.</li><li>Focus ring always visible; wrap-around navigation via <code>selectionMoved</code> reducer.</li><li>No keyboard/touch assumptions; Leanback launcher + 320×180 banner.</li><li>Tests: filter, focus-update, all-buttons-focusable (<code>liveSportsScreen.test.tsx</code>).</li></ul></section>
+<ul><li><strong>Families and casual fans:</strong> want one calm "what's on now" screen.</li><li><strong>Amateur clubs and local leagues:</strong> players, parents and supporters who follow several games on the same evening.</li><li><strong>Fire TV owners:</strong> a capable living-room device, underused for live companion experiences.</li><li>Insight: a 10-foot UI must be readable from the couch and usable with five buttons.</li></ul></section>
+<section id="s4"><h2><span>SLIDE 4 / 10</span>The solution: a calm, remote-driven companion</h2>
+<ul><li>One landscape screen: filters along the top, events on the left, the selected match on the right.</li><li>Live badges, scores, period (67', Q3 04:12, Lap 12/20) and headline. Upcoming games show their kick-off time.</li><li><strong>Watch with overlay:</strong> the match plays fullscreen with the score bug and headline on top. <strong>Hide info</strong> gives clean video, <strong>Back</strong> returns.</li></ul>
+<img src="slides-higgsfield/03-solution-overlay.png" alt="Overlay concept">
+<p style="color:var(--muted);font-size:13px">AI-generated concept render.</p></section>
+<section id="s5"><h2><span>SLIDE 5 / 10</span>Watch with overlay</h2>
+<ul><li>One overlay engine for every sport: the score bug at the top left, a headline bar at the bottom, and Hide/Show info.</li><li>Each sport plays its own freely licensed Wikimedia Commons clip (CC0 / CC BY-SA). There are no region blocks, no ads and no professional-league footage.</li><li>Native playback uses <code>expo-video</code>; the web build uses <code>&lt;video&gt;</code> with a fallback source.</li></ul>
+<div class="grid2"><img src="screenshots/06-match-overlay.png" alt="Overlay on a karting clip"><img src="screenshots/07-overlay-hidden.png" alt="Clean video with the info hidden"></div></section>
+<section id="s6"><h2><span>SLIDE 6 / 10</span>Filter, focus, detail</h2>
+<ul><li>Pick <strong>All / Football / Basketball / Motorsport</strong>. The list filters instantly and the first visible match is selected.</li><li><strong>D-pad focus is selection.</strong> Moving over a card updates the detail panel; <strong>OK</strong> opens the overlay.</li><li>Every control is focusable, with a visible focus ring.</li></ul>
+<div class="grid2"><img src="screenshots/02-football-filter.png" alt="Football filter"><img src="screenshots/05-dpad-navigation.png" alt="D-pad navigation"></div></section>
+<section id="s7"><h2><span>SLIDE 7 / 10</span>10-foot and D-pad UX</h2>
+<ul><li>Landscape-first, large type and high contrast (<code>#07111F</code> / <code>#F7FAFC</code>). The focus ring is always visible.</li><li>No keyboard or touch assumptions. A Leanback launcher entry and a 320×180 banner come from a custom Expo config plugin.</li><li>The same code adapts to phones (a single column) and the web.</li></ul>
+<img src="screenshots/04-motorsport-detail.png" alt="Motorsport detail"></section>
 <section id="s8"><h2><span>SLIDE 8 / 10</span>Architecture</h2>
-<pre>App.tsx → LiveSportsScreen → sportsDashboard reducer + filterMatches
-src/domain/matches.ts    — Sport, SportMatch types
-src/data/demoMatches.ts  — 5 local events (Serie A, LBA, NBA, F1, UCL)
-src/state/               — createDashboardState / dashboardReducer
-plugins/withFireTv.js    — Leanback + banner config</pre>
-<ul><li>Expo 57 · React 19 · react-native-tvos · TypeScript strict.</li><li><code>npm run verify</code> = typecheck + eslint + jest → <strong>19/19 green</strong>.</li></ul></section>
-<section id="s9"><h2><span>SLIDE 9 / 10</span>Why this fits the track</h2>
-<ul><li>Fire TV priority category: <strong>sports</strong>.</li><li>Demo-ready on Fire OS / Vega OS; web export in <code>dist/</code> for quick review.</li><li>Friction-free judging: <code>npm install &amp;&amp; npm test</code>, no secrets.</li><li>Open Source mini-challenge eligible: MIT + public repo.</li></ul></section>
-<section id="s10"><h2><span>SLIDE 10 / 10</span>Roadmap &amp; Ask</h2>
-<ul><li><strong>Now:</strong> demo feed, 3 sports, D-pad nav. <strong>Next:</strong> live WebSocket scores, Alexa+ “who’s winning?”, favorites + reminders, logos.</li><li><strong>Ask:</strong> feedback on Fire TV RN tooling (prebuild, focus, Leanback).</li><li>Try: <code>npm install &amp;&amp; npm run verify &amp;&amp; npx expo start</code> · Video (&lt;3 min, EN): to record on Fire TV/simulator.</li></ul></section>
+<pre>App.tsx -&gt; LiveSportsScreen (dashboard) -&gt; MatchOverlayScreen (video + overlay)
+src/state/sportsDashboard.ts   pure reducer: filter, select, wrap-around
+src/data/demoMatches.ts        5 demo events, amateur clubs only
+src/screens/videoSource.ts     one Commons clip per sport
+plugins/withFireTv.js          Fire OS manifest: Leanback, banner, permissions</pre>
+<ul><li>Expo SDK 57, React 19, react-native-tvos 0.86 and TypeScript.</li><li><code>npm run verify</code> runs typecheck, ESLint and 32 Jest tests, all green.</li></ul></section>
+<section id="s9"><h2><span>SLIDE 9 / 10</span>Why it fits the Fire TV track</h2>
+<ul><li>It targets <strong>sports</strong>, a listed priority category.</li><li>It runs on Fire OS: a release APK, the Leanback launcher, D-pad navigation.</li><li>Judging needs no setup: sideload the APK, or open the web preview. No keys or accounts.</li><li>It is open source (MIT) with a public repo, built during the hackathon window.</li></ul></section>
+<section id="s10"><h2><span>SLIDE 10 / 10</span>Roadmap</h2>
+<ul><li><strong>Now:</strong> a demo feed, three sports, D-pad navigation and the video overlay.</li><li><strong>Next:</strong> live scores from local league feeds, an Alexa+ voice shortcut ("who's winning?"), favourites and kick-off reminders, and club-provided streams in place of the demo clips.</li><li><strong>Try it:</strong> <a href="https://github.com/AliceMessi/amazon-sport-overlay/releases/latest">APK on GitHub Releases</a> · <a href="https://alicemessi.github.io/amazon-sport-overlay/">web preview</a> · <a href="https://youtu.be/_W1ze9UiZrk">demo video</a></li></ul></section>
 </main>
-<footer>Screenshots in <code>docs/screenshots/</code> are faithful UI renders of <code>LiveSportsScreen</code> (same colors/layout/data) for the deck + Devpost gallery until device captures land. · Deadline Oct 23, 2026.</footer>
+<footer>Screenshots 01–07 come from the release APK on an Android TV emulator (1920×1080); 08 is the web build at phone size. The concept renders are AI-generated.</footer>
 </body>
 </html>

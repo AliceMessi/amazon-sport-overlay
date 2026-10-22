@@ -1,130 +1,116 @@
-# Sport Overlay for Fire TV — Pitch Deck (10 slides, EN)
+# Sport Overlay for Fire TV: pitch deck (10 slides)
 
-> Track: Fire TV (Sports — priority category) · Amazon Developer Hackathon 2026
-> App: Expo + React Native TV · Landscape 10-foot UI · D-pad native · Demo feed, no backend needed
+> Fire TV track (sports priority category) · Build, Ship, Shape: Amazon Developer Hackathon 2026
+> Expo + React Native TV · landscape 10-foot UI · D-pad native · bundled demo feed, no backend
 
 ---
 
-## Slide 1 — Title
+## Slide 1: Title
 **Sport Overlay for Fire TV**
-*All your live sports, at a glance — on the biggest screen in the house.*
+*A TV-first companion for live minor-league sport: the score on top of the match, the remote in hand.*
 
-- Companion live multi-sport overlay: football, basketball, Formula 1
-- Built for Fire OS / Vega OS with React Native TV
-- Remote-first: arrows + OK, zero typing
+- Football, basketball and motorsport (karting) on one screen
+- Built for Fire OS with React Native TV
+- Remote-first: arrows and OK, no typing
 - Repo: https://github.com/AliceMessi/amazon-sport-overlay
 
-![Vision — match night on Fire TV](slides-higgsfield/01-hero-living-room.png)
-*AI-generated vision render (Higgsfield GPT Image 2.5).*
+![Vision: match night on Fire TV](slides-higgsfield/01-hero-living-room.png)
+*AI-generated concept render.*
 
-![Home — All sports](screenshots/01-home-all.png)
+![Dashboard on the Android TV emulator](screenshots/01-home-all.png)
 
 ---
 
-## Slide 2 — The Problem
-**Live sports on TV are fragmented.**
+## Slide 2: The problem
+**Minor-league fans get the worst apps.**
 
-- Scores live in phone apps, while the TV shows only one match at a time.
-- Switching apps/channels to check other games breaks immersion.
-- Existing TV guides are not designed for *live, multi-sport* glanceability.
-- Result: fans miss key moments (goals, comebacks, overtakes).
+- Scores are buried in menus, built for phones and not for the couch.
+- Video is region-locked or interrupted by ads.
+- TV guides show one match at a time, with no glanceable live view across sports.
 
 ![Fragmented screens](slides-higgsfield/02-problem-fragmented.png)
-*AI-generated concept render (Higgsfield GPT Image 2.5).*
+*AI-generated concept render.*
 
 ---
 
-## Slide 3 — Who Feels It
-- **Casual fans / families:** want one calm screen showing "what's on now".
-- **Multi-sport fans:** follow Serie A + NBA + F1 in the same evening.
-- **Fire TV owners:** have a powerful living-room device, underused for live companion UX.
-- Insight: the 10-foot experience must be readable from the couch and drivable with 5 buttons.
+## Slide 3: Who feels it
+- **Families and casual fans:** want one calm "what's on now" screen.
+- **Amateur clubs and local leagues:** players, parents and supporters who follow several games on the same evening.
+- **Fire TV owners:** a capable living-room device, underused for live companion experiences.
+- Insight: a 10-foot UI must be readable from the couch and usable with five buttons.
 
 ---
 
-## Slide 4 — The Solution
+## Slide 4: The solution
 **A calm, remote-driven sports companion for Fire TV.**
 
-- One landscape screen: filters on top, event list left, detail panel right.
-- Live badges, scores, period (67', Q3 04:12, Lap 42/58), venue, headline.
-- Demo feed included — judges can run it with zero API keys.
-- 100% offline-capable UI, TV-safe contrast and focus states.
+- One landscape screen: filters along the top, events on the left, the selected match on the right.
+- Live badges, scores, period (67', Q3 04:12, Lap 12/20) and headline. Upcoming games show their kick-off time.
+- **Watch with overlay:** the match plays fullscreen with the score bug and headline on top. **Hide info** gives clean video, **Back** returns.
 
-![Overlay vision](slides-higgsfield/03-solution-overlay.png)
-*AI-generated concept render (Higgsfield GPT Image 2.5).*
-
-## Slide 4b — NEW: Watch with Overlay (video + score bug)
-**Yes — a match can play fullscreen with our info on top.**
-
-- New `MatchOverlayScreen`: **YouTube derby highlights autoplay fullscreen** (WebView embed, no player chrome), score bug top-left, headline/venue bar bottom. mp4 fallback via `expo-video`.
-- From any detail panel: **Watch with overlay** → video + overlay; `Hide info` / `Back` via D-pad OK.
-- Change match video by swapping one ID (`YOUTUBE_DEMO_ID`).
-- Tests: `matchOverlay.test.tsx` (YouTube default, embed URL, mp4 fallback, toggle, back). Suite now **6 files, 24 tests, green**.
-
-![Match overlay demo](screenshots/06-match-overlay.png)
-![YouTube overlay demo](screenshots/07-youtube-overlay.png)
+![Overlay concept](slides-higgsfield/03-solution-overlay.png)
+*AI-generated concept render.*
 
 ---
 
-## Slide 5 — How It Works (1/2): Filter → List
-1. Pick a sport: **All / Football / Basket / Formula 1**.
-2. List filters instantly; first visible match auto-selects.
-3. Event counter shows scope ("4 EVENTS").
+## Slide 5: Watch with overlay
+- One overlay engine for every sport: the score bug at the top left, a headline bar at the bottom, and Hide/Show info.
+- Each sport plays its own freely licensed Wikimedia Commons clip (CC0 / CC BY-SA). There are no region blocks, no ads and no professional-league footage.
+- Native playback uses `expo-video`; the web build uses `<video>` with a fallback source.
+
+![Overlay on a karting clip](screenshots/06-match-overlay.png)
+![Clean video with the info hidden](screenshots/07-overlay-hidden.png)
+
+---
+
+## Slide 6: Filter, focus, detail
+1. Pick a sport: **All / Football / Basketball / Motorsport**. The list filters instantly and the first visible match is selected.
+2. **D-pad focus is selection.** Moving over a card updates the detail panel; **OK** opens the overlay.
+3. Every control is focusable, with a visible focus ring.
 
 ![Football filter](screenshots/02-football-filter.png)
-![Basketball filter](screenshots/03-basketball-filter.png)
-
----
-
-## Slide 6 — How It Works (2/2): Focus → Detail
-- **D-pad focus = selection.** `onFocus` updates the right panel, `OK` confirms.
-- Detail panel: competition, matchup, big score, period, venue, remote hint.
-- Every control is `focusable` with visible selected state (`#55E6C1` border).
-
-![F1 detail](screenshots/04-formula1-detail.png)
 ![D-pad navigation](screenshots/05-dpad-navigation.png)
 
 ---
 
-## Slide 7 — 10-Foot & D-pad UX
-- Landscape-first, 48px margins, min 18sp text, high contrast (`#07111F` on `#F7FAFC`).
-- Focus ring always visible; wrap-around navigation (`selectionMoved` reducer).
-- No keyboard, no touch assumptions; Leanback launcher + 320×180 banner.
-- Tested: `liveSportsScreen.test.tsx` — filter, focus-update, all-buttons-focusable.
+## Slide 7: 10-foot and D-pad UX
+- Landscape-first, large type and high contrast (`#07111F` / `#F7FAFC`). The focus ring is always visible.
+- No keyboard or touch assumptions. A Leanback launcher entry and a 320×180 banner come from a custom Expo config plugin.
+- The same code adapts to phones (a single column) and the web.
+
+![Motorsport detail](screenshots/04-motorsport-detail.png)
 
 ---
 
-## Slide 8 — Architecture
+## Slide 8: Architecture
 ```
-App.tsx → LiveSportsScreen → sportsDashboard reducer + filterMatches
-src/domain/matches.ts   — Sport, SportMatch types
-src/data/demoMatches.ts — 5 local events (Serie A, LBA, NBA, F1, UCL)
-src/state/              — createDashboardState / dashboardReducer
-plugins/withFireTv.js   — Leanback + banner config
+App.tsx -> LiveSportsScreen (dashboard) -> MatchOverlayScreen (video + overlay)
+src/state/sportsDashboard.ts   pure reducer: filter, select, wrap-around
+src/data/demoMatches.ts        5 demo events, amateur clubs only
+src/screens/videoSource.ts     one Commons clip per sport
+plugins/withFireTv.js          Fire OS manifest: Leanback, banner, permissions
 ```
-
-- Stack: Expo 57, React 19, react-native-tvos, TypeScript strict.
-- Quality gates: `npm run verify` = typecheck + eslint + jest → **19/19 green**.
-- Fire TV exception rule satisfied: any framework OK if video shows device/simulator run.
+- Expo SDK 57, React 19, react-native-tvos 0.86 and TypeScript.
+- `npm run verify` runs typecheck, ESLint and 32 Jest tests, all green.
 
 ---
 
-## Slide 9 — Why This Fits the Track
-- Fire TV priority category: **sports** — explicitly listed.
-- Demo-ready: runs on Fire OS / Vega OS, also exports to web (`dist/`) for quick review.
-- Friction-free judging: `npm install && npm test`, no secrets.
-- Open Source mini-challenge eligible: MIT license, public repo, hackathon-window commits.
+## Slide 9: Why it fits the Fire TV track
+- It targets **sports**, a listed priority category.
+- It runs on Fire OS: a release APK, the Leanback launcher, D-pad navigation.
+- Judging needs no setup: sideload the APK, or open the web preview. No keys or accounts.
+- It is open source (MIT) with a public repo, built during the hackathon window.
 
 ---
 
-## Slide 10 — Roadmap & Ask
-**Now:** demo feed, 3 sports, D-pad navigation.
-**Next:** live WebSocket scores, Alexa+ "who's winning?" voice shortcut, favorites + reminders, team logos.
-**Ask:** product feedback on Fire TV React Native tooling (prebuild, focus, Leanback) — full notes in submission.
-
-- Try it: `npm install && npm run verify && npx expo start`
-- Video (<3 min, EN): *to record on Fire TV / simulator*
-- Team: solo, IT — CTO Hoken Tech. Feedback-driven, shipping for the living room.
+## Slide 10: Roadmap
+- **Now:** a demo feed, three sports, D-pad navigation and the video overlay.
+- **Next:**
+  - live scores from local league feeds;
+  - an Alexa+ voice shortcut ("who's winning?");
+  - favourites and kick-off reminders;
+  - club-provided streams in place of the demo clips.
+- **Try it:** [APK on GitHub Releases](https://github.com/AliceMessi/amazon-sport-overlay/releases/latest) · [web preview](https://alicemessi.github.io/amazon-sport-overlay/) · [demo video](https://youtu.be/_W1ze9UiZrk)
 
 ---
-*Screenshots in `docs/screenshots/` are faithful UI renders of `LiveSportsScreen` (same colors/layout/data as the app) for the deck and Devpost gallery until device captures land.*
+*Screenshots 01–07 come from the release APK on an Android TV emulator (1920×1080); 08 is the web build at phone size. The concept renders are AI-generated.*

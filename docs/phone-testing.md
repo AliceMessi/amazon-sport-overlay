@@ -1,27 +1,37 @@
-# Test on your phone — 2 ways (EN summary at bottom)
+# Testing without a Fire TV
 
-## Way A — Expo Go (full app, incl. video overlay) — recommended
-1. Sul PC, nella cartella progetto:
-   ```powershell
+Sport Overlay is built for Fire OS. The same code also runs on a phone and in a browser, which is handy for a quick review. On those targets the dashboard uses the single-column layout; the two-panel layout appears only on TV (`Platform.isTV`).
+
+## Option A: Android TV emulator (closest to Fire OS)
+
+1. In Android Studio, create a TV virtual device (for example *Android TV (1080p)*, API 34, x86).
+2. Install the release APK:
+   ```bash
+   adb install -r sport-overlay-fire-tv-0.1.0.apk
+   adb shell monkey -p tech.hokentech.sportoverlay -c android.intent.category.LEANBACK_LAUNCHER 1
+   ```
+3. Use the emulator's D-pad: the arrows move the focus, **OK** opens **Watch with overlay**, and **Back** returns.
+
+## Option B: Expo Go on a phone (full app, including the video overlay)
+
+1. On your computer, in the project folder:
+   ```bash
    npx expo start --lan
    ```
-2. Sul telefono (stesso Wi-Fi del PC): installa **Expo Go** (Play Store / App Store), aprila e scansiona il QR nel terminale.
-3. Si apre la dashboard → filtri → dettaglio → **Watch with overlay** → video con score bug sopra.
-   - `Hide info` / `Back` con tap (su TV: frecce + OK).
-4. Se il QR non va: in Expo Go usa "Enter URL manually" con l'URL `exp://192.168.1.65:8081` mostrato nel terminale.
+2. On a phone on the same Wi-Fi, install **Expo Go**, open it and scan the QR code shown in the terminal. If the QR code does not work, choose "Enter URL manually" in Expo Go and type the `exp://<computer-ip>:8081` address printed in the terminal.
+3. The dashboard opens. Pick a filter, tap a match, then **Watch with overlay**. Use **Hide info** and **Back** by tapping.
 
-## Way B — Browser del telefono (solo UI web, niente video nativo)
-1. Sul PC:
-   ```powershell
-   npx serve dist -l 3000
-   ```
-   (oppure `python -m http.server 3000 --directory dist`)
-2. Sul telefono (stesso Wi-Fi): apri `http://192.168.1.65:3000`.
+## Option C: browser (web build)
 
-## Note (v0.3)
-- Come capire che hai il codice nuovo: in fondo alla dashboard c'è scritto **"Sport Overlay v0.3 · phone layout"**. Se non lo vedi, hai ancora il bundle vecchio → chiudi tutti i terminali expo e riparti con `-c`.
-- Su telefono la dashboard è **una colonna con un unico scroll**: filtri → card → dettaglio → bottone verde **Watch with overlay**. Niente più scroll doppi.
-- Video overlay = WebView YouTube: l'overlay info **non blocca i tap sul video** — se l'autoplay è bloccato, **tocca il video per farlo partire**.
+- Hosted: https://alicemessi.github.io/amazon-sport-overlay/
+- Local:
+  ```bash
+  npm run web:build        # exports to dist/
+  npx serve dist -l 3000   # or: python -m http.server 3000 --directory dist
+  ```
+  Then open `http://<computer-ip>:3000` on any device on the same network.
 
----
-*EN: Same Wi-Fi on PC + phone. A) `npx expo start --lan`, scan QR with Expo Go. B) Serve `dist/` and open `http://192.168.1.65:3000` in the phone browser (web UI only).*
+## Notes
+
+- To check that you are running the current bundle, look at the footer at the bottom of the phone and web layout: it reads **"Sport Overlay v0.3 · phone layout"**. If it is missing, restart Expo with `npx expo start -c` to clear the cache.
+- The overlay plays the bundled Wikimedia Commons clips (MP4/WebM, looping). If a browser blocks autoplay, click the video to start it.
