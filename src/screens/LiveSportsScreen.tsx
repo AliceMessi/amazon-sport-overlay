@@ -149,6 +149,7 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
             contentContainerStyle={styles.filters}
             horizontal
             showsHorizontalScrollIndicator={false}
+            style={styles.filterBar}
           >
             {sportFilters.map((filter) => {
               const active = state.sport === filter.id;
@@ -378,6 +379,12 @@ const styles = StyleSheet.create({
   },
   detailScoreCompact: {
     fontSize: 40,
+  },
+  // ScrollView defaults to flexGrow/flexShrink 1: in the TV column it was
+  // squeezed until the chip labels were clipped to a few pixels.
+  filterBar: {
+    flexGrow: 0,
+    flexShrink: 0,
   },
   filters: {
     gap: 10,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import renderer, { act, type ReactTestRenderer } from 'react-test-renderer';
 import LiveSportsScreen from '../src/screens/LiveSportsScreen';
 import type { SportMatch } from '../src/domain/matches';
@@ -24,7 +25,7 @@ const matches: SportMatch[] = [
     homeTeam: { name: 'Olimpia Milano', score: 74 },
     awayTeam: { name: 'Virtus Bologna', score: 69 },
     period: 'Q3 04:12',
-    headline: 'Milano recupera due punti',
+    headline: 'Milano claws back two points',
   },
   {
     id: 'basketball-2',
@@ -95,6 +96,16 @@ describe('LiveSportsScreen', () => {
     act(() => screen.root.findByProps({ testID: 'watch-overlay-button' }).props.onPress());
 
     expect(onWatch).toHaveBeenCalledWith(matches[0]);
+  });
+
+  test('keeps the filter bar at its natural height so chip labels are not clipped', () => {
+    const renderedScreen = renderScreen();
+    const filterBar = renderedScreen.root.find(
+      (node) => node.props.horizontal === true && node.props.contentContainerStyle !== undefined,
+    );
+    const style = StyleSheet.flatten(filterBar.props.style);
+
+    expect(style).toMatchObject({ flexGrow: 0, flexShrink: 0 });
   });
 
   test('makes every interactive control focusable with a remote', () => {

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { BackHandler, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { WebView } from 'react-native-webview';
 import type { SportMatch } from '../domain/matches';
@@ -37,6 +37,15 @@ export default function MatchOverlayScreen({
   onBack,
 }: MatchOverlayScreenProps) {
   const [overlayVisible, setOverlayVisible] = useState(true);
+
+  // The remote's Back key must return to the list instead of leaving the app.
+  useEffect(() => {
+    const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+      onBack();
+      return true;
+    });
+    return () => subscription.remove();
+  }, [onBack]);
 
   return (
     <View style={styles.screen}>
@@ -82,8 +91,9 @@ export default function MatchOverlayScreen({
           }
           accessibilityRole="button"
           focusable
+          hasTVPreferredFocus
           onPress={() => setOverlayVisible((visible) => !visible)}
-          style={styles.controlButton}
+          style={({ focused }) => [styles.controlButton, focused && styles.controlButtonFocused]}
           testID="overlay-toggle"
         >
           <Text style={styles.controlText}>
@@ -95,7 +105,7 @@ export default function MatchOverlayScreen({
           accessibilityRole="button"
           focusable
           onPress={onBack}
-          style={styles.controlButton}
+          style={({ focused }) => [styles.controlButton, focused && styles.controlButtonFocused]}
           testID="overlay-back"
         >
           <Text style={styles.controlText}>Back</Text>
@@ -172,6 +182,9 @@ const styles = StyleSheet.create({
     minHeight: 52,
     paddingHorizontal: 22,
     paddingVertical: 14,
+  },
+  controlButtonFocused: {
+    borderColor: '#55E6C1',
   },
   controlText: {
     color: '#B8C7D9',

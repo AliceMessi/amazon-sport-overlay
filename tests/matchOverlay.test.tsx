@@ -1,5 +1,6 @@
 import React from 'react';
 import renderer, { act, type ReactTestRenderer } from 'react-test-renderer';
+import { BackHandler } from 'react-native';
 import type { SportMatch } from '../src/domain/matches';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -92,6 +93,44 @@ describe('MatchOverlayScreen', () => {
     expect(
       screen.root.findByProps({ testID: 'overlay-score-bug' }),
     ).toBeTruthy();
+  });
+
+  test('returns to the list on the remote Back key', () => {
+    const onBack = jest.fn();
+    const remove = jest.fn();
+    let handler: (() => boolean | null | undefined) | undefined;
+    const spy = jest
+      .spyOn(BackHandler, 'addEventListener')
+      .mockImplementation((_event, callback) => {
+        handler = callback;
+        return { remove };
+      });
+    act(() => {
+      screen = renderer.create(
+        <MatchOverlayScreen match={match} onBack={onBack} />,
+      );
+    });
+
+    expect(spy).toHaveBeenCalledWith('hardwareBackPress', expect.any(Function));
+    expect(handler?.()).toBe(true);
+    expect(onBack).toHaveBeenCalledTimes(1);
+
+    act(() => screen?.unmount());
+    screen = undefined;
+    expect(remove).toHaveBeenCalledTimes(1);
+    spy.mockRestore();
+  });
+
+  test('gives the Hide info control the initial TV focus', () => {
+    act(() => {
+      screen = renderer.create(
+        <MatchOverlayScreen match={match} onBack={() => undefined} />,
+      );
+    });
+
+    expect(
+      screen.root.findByProps({ testID: 'overlay-toggle' }).props.hasTVPreferredFocus,
+    ).toBe(true);
   });
 
   test('back button calls onBack', () => {
