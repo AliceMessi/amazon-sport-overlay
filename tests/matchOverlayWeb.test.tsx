@@ -15,7 +15,7 @@ const match: SportMatch = {
   awayTeam: { name: 'ASD Corsico', score: 1 },
   period: '67°',
   venue: 'Comunale Lambrate',
-  headline: 'Partita equilibrata nel secondo tempo',
+  headline: 'Evenly matched in the second half',
 };
 
 describe('MatchOverlayScreen.web', () => {

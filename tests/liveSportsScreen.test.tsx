@@ -13,7 +13,7 @@ const matches: SportMatch[] = [
     homeTeam: { name: 'Inter', score: 1 },
     awayTeam: { name: 'Milan', score: 1 },
     period: '67°',
-    headline: 'Partita equilibrata nel secondo tempo',
+    headline: 'Evenly matched in the second half',
   },
   {
     id: 'basketball-1',
@@ -58,7 +58,7 @@ describe('LiveSportsScreen', () => {
   test('filters matches and selects the first visible match', () => {
     const renderedScreen = renderScreen();
     const basketballFilter = renderedScreen.root.findByProps({
-      accessibilityLabel: 'Filtra Basket',
+      accessibilityLabel: 'Filter Basketball',
     });
 
     act(() => basketballFilter.props.onPress());

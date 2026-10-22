@@ -19,26 +19,26 @@ type SportFilterOption = {
 };
 
 const sportFilters: readonly SportFilterOption[] = [
-  { id: 'all', label: 'Tutti', accessibilityLabel: 'Filtra Tutti' },
-  { id: 'football', label: 'Calcio', accessibilityLabel: 'Filtra Calcio' },
-  { id: 'basketball', label: 'Basket', accessibilityLabel: 'Filtra Basket' },
-  { id: 'formula1', label: 'Formula 1', accessibilityLabel: 'Filtra Formula 1' },
+  { id: 'all', label: 'All', accessibilityLabel: 'Filter All' },
+  { id: 'football', label: 'Football', accessibilityLabel: 'Filter Football' },
+  { id: 'basketball', label: 'Basketball', accessibilityLabel: 'Filter Basketball' },
+  { id: 'formula1', label: 'Motorsport', accessibilityLabel: 'Filter Motorsport' },
 ];
 
 const sportLabels: Record<Sport, string> = {
-  football: 'Calcio',
-  basketball: 'Basket',
-  formula1: 'Formula 1',
+  football: 'Football',
+  basketball: 'Basketball',
+  formula1: 'Motorsport',
 };
 
 const statusLabels: Record<SportMatch['status'], string> = {
   live: 'LIVE',
-  upcoming: 'INIZIA',
-  finished: 'TERMINATA',
+  upcoming: 'UPCOMING',
+  finished: 'FINAL',
 };
 
 function formatTime(value: string): string {
-  return new Intl.DateTimeFormat('it-IT', {
+  return new Intl.DateTimeFormat('en-US', {
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(value));
@@ -62,7 +62,7 @@ function MatchCard({
 }) {
   return (
     <Pressable
-      accessibilityLabel={`Apri ${match.homeTeam.name} contro ${match.awayTeam.name}`}
+      accessibilityLabel={`Open ${match.homeTeam.name} vs ${match.awayTeam.name}`}
       accessibilityRole="button"
       accessibilityState={{ selected }}
       focusable
@@ -135,7 +135,7 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
       <View style={styles.header}>
         <View>
           <Text style={styles.eyebrow}>SPORT COMPANION</Text>
-          <Text style={[styles.title, compact && styles.titleCompact]}>Tutto il tuo sport, in un colpo d’occhio</Text>
+          <Text style={[styles.title, compact && styles.titleCompact]}>All your sport, at a glance</Text>
         </View>
         <View style={styles.demoBadge}>
           <View style={styles.liveDot} />
@@ -172,8 +172,8 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
           </ScrollView>
 
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Diretta e prossimi eventi</Text>
-            <Text style={styles.eventCount}>{visibleMatches.length} EVENTI</Text>
+            <Text style={styles.sectionTitle}>Live and upcoming</Text>
+            <Text style={styles.eventCount}>{visibleMatches.length} {visibleMatches.length === 1 ? 'EVENT' : 'EVENTS'}</Text>
           </View>
 
           {compact ? (
@@ -227,21 +227,21 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
                   {statusLabels[selectedMatch.status]}
                 </Text>
               </View>
-              <Text style={styles.detailEyebrow}>PARTITA SELEZIONATA</Text>
+              <Text style={styles.detailEyebrow}>SELECTED MATCH</Text>
               <Text testID="selected-match-title" style={[styles.detailTitle, compact && styles.detailTitleCompact]}>
                 {`${selectedMatch.homeTeam.name} vs ${selectedMatch.awayTeam.name}`}
               </Text>
               <Text style={[styles.detailScore, compact && styles.detailScoreCompact]}>{formatScore(selectedMatch)}</Text>
               <View style={styles.detailDivider} />
               <Text style={styles.detailHeadline}>
-                {selectedMatch.headline ?? 'Appuntamento in programma'}
+                {selectedMatch.headline ?? 'Scheduled match'}
               </Text>
               <Text style={styles.detailMeta}>
-                {selectedMatch.period ?? `Inizia alle ${formatTime(selectedMatch.startsAt)}`}
+                {selectedMatch.period ?? `Starts at ${formatTime(selectedMatch.startsAt)}`}
               </Text>
               {onWatch ? (
                 <Pressable
-                  accessibilityLabel={`Guarda ${selectedMatch.homeTeam.name} contro ${selectedMatch.awayTeam.name} con overlay`}
+                  accessibilityLabel={`Watch ${selectedMatch.homeTeam.name} vs ${selectedMatch.awayTeam.name} with overlay`}
                   accessibilityRole="button"
                   focusable
                   onPress={() => onWatch(selectedMatch)}
@@ -252,14 +252,14 @@ export default function LiveSportsScreen({ matches, onWatch }: LiveSportsScreenP
                 </Pressable>
               ) : null}
               <View style={styles.remoteHint}>
-                <Text style={styles.remoteHintTitle}>Comandi telecomando</Text>
+                <Text style={styles.remoteHintTitle}>Remote controls</Text>
                 <Text style={styles.remoteHintText}>
-                  Usa le frecce per spostarti e OK per selezionare.
+                  Use the arrows to move and OK to select.
                 </Text>
               </View>
             </>
           ) : (
-            <Text style={styles.emptyText}>Nessun evento per questo sport.</Text>
+            <Text style={styles.emptyText}>No events for this sport.</Text>
           )}
         </ScrollView>
         {compact ? (

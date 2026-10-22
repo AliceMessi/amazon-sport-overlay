@@ -78,7 +78,7 @@ export default function MatchOverlayScreen({
       <View style={styles.controls}>
         <Pressable
           accessibilityLabel={
-            overlayVisible ? 'Nascondi overlay' : 'Mostra overlay'
+            overlayVisible ? 'Hide overlay' : 'Show overlay'
           }
           accessibilityRole="button"
           focusable
@@ -91,7 +91,7 @@ export default function MatchOverlayScreen({
           </Text>
         </Pressable>
         <Pressable
-          accessibilityLabel="Torna alla lista"
+          accessibilityLabel="Back to the match list"
           accessibilityRole="button"
           focusable
           onPress={onBack}

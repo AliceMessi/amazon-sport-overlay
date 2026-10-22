@@ -19,4 +19,11 @@ coverage/
 *.key
 *.mobileprovision
 .DS_Store
-
+# local build output and recording artifacts
+dist-pages/
+.playwright-cli/
+video/
+*.apk
+*.webm
+*.mp4
+scripts/*.js

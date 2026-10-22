@@ -11,9 +11,9 @@ export const demoMatches: readonly SportMatch[] = [
     startsAt: '2026-09-25T18:00:00.000Z',
     homeTeam: { name: 'Polisportiva Lambrate', score: 1 },
     awayTeam: { name: 'ASD Corsico', score: 1 },
-    period: '67°',
+    period: "67'",
     venue: 'Comunale Lambrate',
-    headline: 'Partita equilibrata nel secondo tempo',
+    headline: 'Evenly matched in the second half',
   },
   {
     id: 'seriec-lambrate-corsico-basket',
@@ -25,7 +25,7 @@ export const demoMatches: readonly SportMatch[] = [
     awayTeam: { name: 'Basket Corsico', score: 69 },
     period: 'Q3 04:12',
     venue: 'PalaLambrate',
-    headline: 'Lambrate recupera due punti nel terzo quarto',
+    headline: 'Lambrate claws back two points in the third quarter',
   },
   {
     id: 'kart-lonato-siena',
@@ -35,8 +35,8 @@ export const demoMatches: readonly SportMatch[] = [
     startsAt: '2026-09-25T19:00:00.000Z',
     homeTeam: { name: 'Kart Club Lonato', score: 1 },
     awayTeam: { name: 'Kart Club Siena', score: 2 },
-    period: 'Giro 12/20',
-    headline: 'Duello ravvicinato nella zona lenta',
+    period: 'Lap 12/20',
+    headline: 'Wheel-to-wheel duel through the slow section',
   },
   {
     id: 'seriec-segrate-saronno-basket',
@@ -48,7 +48,7 @@ export const demoMatches: readonly SportMatch[] = [
     awayTeam: { name: 'Basket Saronno', score: 95 },
     period: 'Q4 02:41',
     venue: 'Palasegrate',
-    headline: 'Segrate completa il comeback',
+    headline: 'Segrate completes the comeback',
   },
   {
     id: 'coppa-rovellasca-mazzo',
@@ -59,6 +59,6 @@ export const demoMatches: readonly SportMatch[] = [
     homeTeam: { name: 'GS Rovellasca', score: null },
     awayTeam: { name: 'AC Mazzo', score: null },
     venue: 'Comunale Rovellasca',
-    headline: 'Sfida ad alta tensione per il primo posto',
+    headline: 'High-stakes clash for first place',
   },
 ];
